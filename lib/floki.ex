@@ -99,6 +99,15 @@ defmodule Floki do
     raw_html(tail, html <> tag_for(type, tag_attrs(attrs), children))
   end
 
+  def inner_html(html_tree), do: inner_html(html_tree, "")
+  # defp inner_html([], html), do: html
+  defp inner_html(tuple, html) when is_tuple(tuple), do: inner_html([tuple], html)
+  # defp inner_html([string|tail], html) when is_binary(string), do: inner_html(tail, html <> string)
+  # defp inner_html([{:comment, comment}|tail], html), do: inner_html(tail, html <> "<!--#{comment}-->")
+  defp inner_html([{type, attrs, children}|tail], html) do
+    raw_html(tail, html <> raw_html(children))
+  end
+
   defp tag_attrs(attr_list) do
     attr_list
     |> Enum.reduce("", fn({attr, value}, attrs) -> ~s(#{attrs} #{attr}="#{value}") end)

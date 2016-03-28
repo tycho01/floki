@@ -154,6 +154,13 @@ defmodule FlokiTest do
     assert raw_html == ~s(<a href="uol.com.br" class="bar"><span>UOL</span><img src="foo.png"/></a>)
   end
 
+  # Floki.inner_html/2
+
+  test "inner_html" do
+    html = Floki.parse(@basic_html) |> Floki.inner_html
+    assert html == "<p><a href=\"uol.com.br\" class=\"bar\"><span>UOL</span><img src=\"foo.png\"/></a></p><strong>ok</strong><br/>"
+  end
+
   # Floki.find/2 - Classes
 
   test "find elements with a given class" do
